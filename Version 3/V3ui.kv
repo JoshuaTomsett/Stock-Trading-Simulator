@@ -1,0 +1,347 @@
+
+<CompanyButtons>
+    MDRectangleFlatButton:
+        size_hint: 1 , 1
+        font_size: 20
+        text: root.value
+        on_release: app.create_graph(self.text)
+
+<PortfolioWidget>
+
+    BoxLayout:
+        orientation: "horizontal"
+
+        MDLabel:
+            text: root.ticker_name
+            font_size: 50
+        
+        MDLabel:
+            text: root.units
+
+        MDLabel:
+            text: root.value
+        
+        MDLabel:
+            text: root.total_value
+        
+
+<SuggestContent>:
+
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+
+    MDLabel:
+        markup: True
+        text: '[ref=some]Find tickers at Yahoo Finance[/ref]'
+        theme_text_color: "Custom"
+        text_color: 0, 0, 1, 1
+        on_ref_press:
+            import webbrowser
+            webbrowser.open('https://uk.finance.yahoo.com/')
+
+    MDTextField:
+        id: suggestTicker
+        hint_text: "Ticker"
+
+<MainScreen>:
+
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTabs:
+            tab_hint_x: True
+            allow_stretch: True
+            lock_swiping: True
+            tab_bar_height: 80
+
+
+            # Main screen
+            Tab:
+                icon: "chart-line"
+
+                GridLayout:         # page layout
+                    cols: 2
+
+                    BoxLayout:          # list of buttons layout
+                        size_hint: 0.6 , 1
+                        orientation: "vertical"
+                        spacing: "10dp"
+                        padding: "20dp"
+
+                        MDBoxLayout:
+                            adaptive_height: True
+
+                            MDIconButton:
+                                icon: "magnify"
+
+                            MDTextField:
+                                id: search_field
+                                hint_text: "Search Company"
+                                on_text: app.add_item_list(self.text,True)
+
+                        RecycleView:
+                            id: rv
+                            viewclass: "CompanyButtons"
+                            data: app.rv_data
+                            RecycleBoxLayout:
+                                orientation: "vertical"
+                                default_size: [0, dp(50)]
+                                default_size_hint: 1, None
+                                size_hint_x: 1
+                                size_hint_y: None
+                                height: self.minimum_height
+                        
+                        MDRaisedButton:
+                            size_hint: 1 , 0.09
+                            text: "Suggest"
+                            on_release: app.suggest_popup()
+
+                    BoxLayout:          # layout for graph and buy/sell
+                        orientation: "vertical"
+
+                        GridLayout:
+                            cols: 2
+
+                            BoxLayout: # graph
+                                orientation: "vertical"
+                                id: graphLayout
+
+                                Label:
+                                    text: ""
+                            
+                            BoxLayout: # time buttons
+                                orientation: "vertical"
+                                size_hint: 0.1 , 1
+
+                                MDFlatButton:
+                                    size_hint: 1 , 1
+                                    font_size: 20
+                                    text: "Week"
+                                    on_release: app.update_graph("week")
+                                
+                                MDFlatButton:
+                                    size_hint: 1 , 1
+                                    font_size: 20
+                                    text: "Month"
+                                    on_release: app.update_graph("month")
+
+                                MDFlatButton:
+                                    size_hint: 1 , 1
+                                    font_size: 20
+                                    text: "Year"
+                                    on_release: app.update_graph("year")
+                                
+                        GridLayout: # buy /sell and price infomation
+                            cols: 2
+                            size_hint: 1 , 0.3
+
+                            BoxLayout: # buy /sell
+                                padding: "20dp"
+                                adaptive_size: True
+                                spacing: "20dp"
+                                orientation: "vertical"
+                                pos_hint: {"center_x": .5}
+
+                                MDFillRoundFlatButton:
+                                    text: "Buy"
+                                    on_release: app.buy_stock()
+                                    font_size: 20
+                                    pos_hint: {"center_x": .5}
+                                    md_bg_color: 0,1,0,1
+                                    size_hint: 0.45 , 1
+
+                                MDTextField:
+                                    id: amount_text
+                                    hint_text: "Amount"
+                                    pos_hint: {"center_x": .5}
+                                    size_hint: 0.4 , None
+
+                                MDFillRoundFlatButton:
+                                    text: "Sell"
+                                    on_release: app.sell_stock()
+                                    font_size: 20
+                                    pos_hint: {"center_x": .5}
+                                    md_bg_color: 1,0,0,1
+                                    size_hint: 0.45 , 1
+                            
+                            MDLabel: # stock infomation
+                                id: stock_info
+                                text: "Ticker: \n\nCurrent Price: "
+
+
+            # Profile screen
+            Tab:
+                icon: "account-box-outline"
+
+                BoxLayout:
+                    orientation: "vertical"
+
+                    MDToolbar:
+                        left_action_items: [['refresh' , lambda x: app.add_item_portfolio()]]
+                        id: profileLabel
+                        title: "profile"
+                        anchor_title: "center"
+                    
+                    BoxLayout:
+                        orientation: "horizontal"
+                        size_hint_y: 0.07
+
+                        OneLineListItem:
+                            text: "Ticker"
+                        
+                        OneLineListItem:
+                            text: "Units"
+
+                        OneLineListItem:
+                            text: "Value"
+                        
+                        OneLineListItem:
+                            text: "Total Value"
+                    
+                    RecycleView:
+                        id: rv_profile
+                        viewclass: "PortfolioWidget"
+                        data: app.profile_data
+                        RecycleBoxLayout:
+                            orientation: "vertical"
+                            default_size: [0, dp(50)]
+                            default_size_hint: 1, None
+                            size_hint_x: 1
+                            size_hint_y: None
+                            height: self.minimum_height
+            
+
+            # Settings screen
+            Tab:
+                icon: "cog"
+
+                GridLayout:
+                    cols: 1
+
+                    MDList:
+                        OneLineListItem:
+                            text: "Sign out"
+                            on_release: app.sign_out()
+
+
+<LoginScreen>:
+
+    BoxLayout:
+        orientation: "vertical"
+
+        MDToolbar:
+
+        BoxLayout:
+            orientation: "vertical"
+            padding: 20
+            spacing: 30
+
+            MDLabel:
+                text: 'LOGIN'
+                font_style: 'Button'
+                font_size: 45
+                halign: "center"
+            
+            MDTextField:
+                id: username
+                hint_text: "username"
+                icon_right: "account"
+                helper_text: "Invalid username"
+                helper_text_mode: "on_error"
+                size_hint_x: None
+                width: 220
+                font_size: 20
+                pos_hint: {"center_x":.5}
+                color_active: [1,1,1,1]
+
+            MDTextField:
+                id: password
+                hint_text: "password"
+                icon_right: "eye-off"
+                helper_text: "Incorrect password"
+                helper_text_mode: "on_error"
+                size_hint_x: None
+                width: 220
+                font_size: 20
+                pos_hint: {"center_x":.5}
+                color_active: [1,1,1,1]
+                password: True
+
+            MDFillRoundFlatButton:
+                text: 'LOGIN'
+                pos_hint: {"center_x":.5}
+                font_size: 15
+                on_release:
+                    root.login()
+
+            MDFlatButton:
+                text: 'SIGN-UP'
+                pos_hint: {"center_x":.5}
+                font_size: 15
+                on_release:
+                    root.signUp()
+
+            Widget:
+            
+<SignUpScreen>:
+
+    BoxLayout:
+        orientation: "vertical"
+
+        MDToolbar:
+            left_action_items: [['arrow-left' , lambda x: root.back_to_login()]]
+
+        BoxLayout:
+            orientation: "vertical"
+            padding: 20
+            spacing: 30
+
+            MDLabel:
+                text: 'Create \nAccount'
+                font_style: 'Button'
+                font_size: 45
+                halign: "center"
+            
+            MDTextField:
+                id: username
+                hint_text: "username"
+                icon_right: "account"
+                helper_text: "username is taken"
+                size_hint_x: None
+                width: 220
+                font_size: 20
+                pos_hint: {"center_x":.5}
+                color_active: [1,1,1,1]
+
+            MDTextField:
+                id: password
+                hint_text: "password"
+                icon_right: "eye-off"
+                size_hint_x: None
+                width: 220
+                font_size: 20
+                pos_hint: {"center_x":.5}
+                color_active: [1,1,1,1]
+                password: True
+
+            MDTextField:
+                id: REpassword
+                hint_text: "Re-enter password"
+                icon_right: "eye-off"
+                helper_text: "password does not match"
+                size_hint_x: None
+                width: 220
+                font_size: 20
+                pos_hint: {"center_x":.5}
+                color_active: [1,1,1,1]
+                password: True
+
+            MDFillRoundFlatButton:
+                text: 'SIGN-UP'
+                pos_hint: {"center_x":.5}
+                font_size: 15
+                on_release:
+                    root.signUp()
+
+            Widget:
