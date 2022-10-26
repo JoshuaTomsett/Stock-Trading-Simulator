@@ -524,24 +524,3 @@ class MyApp(MDApp):
             self.update_graph(self.current_time) # display the new graph
 
 MyApp().run()
-
-
-# TO DO #
-
-# RuntimeWarning: More than 20 figures have been opened
-    # close graphs when new ones are created
-
-# FEATURES
-
-    # settings tab
-        # dark mode
-            # MDSwitch
-
-    # user transaction logs
-
-    # percentage change from purchase in porfolio, green/red for positive/negative
-
-    # total portfolio value in toolbar
-
-
-
