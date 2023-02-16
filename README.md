@@ -3,6 +3,11 @@ Allows you to trade stocks in real time using a virtual currency.
 
 Live data is retrived using the Yahoo Finance API.
 
+![image](https://user-images.githubusercontent.com/82319856/219406639-a120ddb1-d85d-44e0-97e2-67ebf4154e9f.png)
+
+![image](https://user-images.githubusercontent.com/82319856/219406689-a4587427-cdd6-4b3b-873f-34a988bd11bf.png)
+
+
 ### Requirements
 
 Version 1
@@ -28,4 +33,3 @@ Version 3
 - sqlite3
 - kivy
 - kivyMD
-
