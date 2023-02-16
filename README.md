@@ -29,5 +29,3 @@ Version 3
 - kivy
 - kivyMD
 
-
-![](sc1.PNG)
