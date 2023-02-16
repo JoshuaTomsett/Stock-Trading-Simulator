@@ -3,7 +3,7 @@ Allows you to trade stocks in real time using a virtual currency.
 
 Live data is retrived using the Yahoo Finance API.
 
-Requirements
+### Requirements
 
 Version 1
 - pandas_datareader
