@@ -28,3 +28,6 @@ Version 3
 - sqlite3
 - kivy
 - kivyMD
+
+
+![](sc1.PNG)
