@@ -1,7 +1,10 @@
 # Stock-Trading-Simulator
 Allows you to trade stocks in real time using a virtual currency.
 
-Live data is retrived using the Yahoo Finance API.
+### Live data is retrived using the Yahoo Finance API.
+### User data stored in database
+### Full GUI interface
+### Stock data visualised in various time graphs
 
 ![image](https://user-images.githubusercontent.com/82319856/219406639-a120ddb1-d85d-44e0-97e2-67ebf4154e9f.png)
 
